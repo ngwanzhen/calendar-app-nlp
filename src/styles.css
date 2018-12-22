@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+/* @import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid'; */
+
+@import url('https://fonts.googleapis.com/css?family=Allerta+Stencil');
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.mat-card {
+    margin-bottom: 8px;
+    margin-left: 2px;
+}

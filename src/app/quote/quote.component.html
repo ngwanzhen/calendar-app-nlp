@@ -1,0 +1,15 @@
+<p>
+  {{title}}
+  -- by {{author}}
+</p>
+
+<div *ngFor="let joke of jokes$ | async">
+  <div class="joke-content flex">
+    <!-- <span class="vote">{{ getVotes(joke.id) }}</span> -->
+    <p>{{joke | json}}</p>
+    <!-- <span class="stretch" [innerHTML]="joke.joke"></span> -->
+    <button mat-icon-button>
+      <!-- <mat-icon class="heart" aria-label="Like">favorite</mat-icon> -->
+    </button>
+  </div>
+</div>

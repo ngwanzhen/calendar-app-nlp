@@ -1,0 +1,9 @@
+<!-- <form (ngSubmit)="onSubmit()" -->
+<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+  <mat-form-field>
+    <input matInput placeholder="Swim today at 2pm" name="first" ngModel #first="ngModel">
+  </mat-form-field>
+  <!-- <input name="second" ngModel> -->
+  <!-- <input name="third" ngModel> -->
+  <button mat-flat-button color="accent" type="submit" class="btn btn-success">Add stuff</button>
+</form>
