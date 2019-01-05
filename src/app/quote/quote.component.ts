@@ -22,7 +22,6 @@ export class QuoteComponent implements OnInit {
   async ngOnInit() {
     // getting quotes
     const quoteResponse = await this.http.get(`http://quotes.rest/qod.json`).toPromise();
-    console.log(quoteResponse);
     this.title = quoteResponse['contents'].quotes[0].quote;
     this.author = quoteResponse['contents'].quotes[0].author;
     this.ref.detectChanges()

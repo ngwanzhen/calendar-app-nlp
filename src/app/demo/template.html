@@ -2,7 +2,19 @@
   <div class="col-md-3">
 
     <mat-card>
-      <app-quote></app-quote>
+      <h3>About</h3>
+      <div>
+        <p>This is a demo for a task management system that is able to:
+          <ul>
+            <li>add task and time in a single string input such as 'swimming next Friday at 2pm'</li>
+            <li>check for clashes in timing before proceeding to book a slot</li>
+            <li>add recurring schedule using the words 'birthday' or 'anniversary' or 'every day / month / week'</li>
+            <li>'guess' am / pm from morning / evening / best guess based on hour</li>
+            <li>issue JWT cookies for auth / security</li>
+            <li>save todos into cards (firebase)</li>
+          </ul>
+          <p>Contact me ngwanzhen@gmail.com if you'd like to collaborate / test the app under a private account!</p>
+      </div>
     </mat-card>
 
     <mat-card>
@@ -17,9 +29,9 @@
             {{response['singleData']['scheduledStartDateTime'] | date:'shortTime'}}</p>
         </div>
         <div *ngIf="response['recurringData']">
-          <h4 mat-line>{{response['recurringData']['title']}}</h4>
-          <p matLine>From {{response['recurringData']['scheduledStartDateTime'] | date:'shortTime'}} To
-            {{response['recurringData']['scheduledStartDateTime'] | date:'shortTime'}}</p>
+          <h4 mat-line>{{response['recurringData'][0]['title']}}</h4>
+          <p matLine>From {{response['recurringData'][0]['scheduledStartDateTime'] | date:'shortTime'}} To
+            {{response['recurringData'][0]['scheduledStartDateTime'] | date:'shortTime'}}</p>
         </div>
         <div *ngIf="response['clashTask'] && response['clashTask'].length">
           <h1>CLASHES</h1>
@@ -34,30 +46,38 @@
       </div>
     </mat-card>
 
-    <mat-card>
-      <mat-list>
-        <h3>Today's Focus</h3>
-        <mat-list-item *ngFor="let task of todayTasks; last as last">
-          <mat-icon mat-list-icon>today</mat-icon>
-          <h4 mat-line>{{task['title']}}</h4>
-          <!-- <p matLine>On {{task['scheduledStartDateTime'] | date:'mediumDate'}}</p> -->
-          <p matLine>From {{task['scheduledStartDateTime'] | date:'shortTime'}} To {{task['scheduledStartDateTime'] |
-            date:'shortTime'}}</p>
-          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </mat-list>
-    </mat-card>
+    <div *ngIf="todayTasks && todayTasks.length">
+      <mat-card>
+        <mat-list>
+          <h3>Today's Focus</h3>
+          <mat-list-item *ngFor="let task of todayTasks; last as last">
+            <mat-icon mat-list-icon>today</mat-icon>
+            <h4 mat-line>{{task['title']}}</h4>
+            <!-- <p matLine>On {{task['scheduledStartDateTime'] | date:'mediumDate'}}</p> -->
+            <p matLine>From {{task['scheduledStartDateTime'] | date:'shortTime'}} To {{task['scheduledStartDateTime'] |
+              date:'shortTime'}}</p>
+            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </mat-card>
+    </div>
+
+
 
   </div>
-  <div class="col-md-9">
+  <div class="col-md-6">
     <mat-card>
       <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
         (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-month-view>
     </mat-card>
 
-    <div class="container row justify-content-between">
+        <mat-card>
+          <app-quote></app-quote>
+        </mat-card>
+
+    <!-- <div class="container row justify-content-between">
       <mat-card class="col-md-3">
         <mat-list>
           <h3>Work</h3>
@@ -105,9 +125,60 @@
           <mat-divider></mat-divider>
         </mat-list>
       </mat-card>
-    </div>
+    </div> -->
 
   </div>
+
+  <div class="col-md-3">
+    <mat-card>
+      <mat-list>
+        <h3>Work</h3>
+        <mat-list-item *ngFor="let item of workCard ; last as last">
+          <mat-icon mat-list-icon (click)="delete('work', item.task)">remove_circle</mat-icon>
+          <h4 mat-line>{{item.task}}</h4>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon (click)="update('work', workInput.value); workInput.value=''">add_circle</mat-icon>
+          <h4 mat-line><input #workInput (keyup)="0" matInput placeholder="Add To Do"></h4>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </mat-card>
+
+    <mat-card>
+      <mat-list>
+        <h3>Side Projects</h3>
+        <mat-list-item *ngFor="let item of sideProjectCard ; last as last">
+          <mat-icon mat-list-icon (click)="delete('sideProject', item.task)">remove_circle</mat-icon>
+          <h4 mat-line>{{item.task}}</h4>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon (click)="update('sideProject', sideProjectInput.value); sideProjectInput.value=''">add_circle</mat-icon>
+          <h4 mat-line><input #sideProjectInput (keyup)="0" matInput placeholder="Add To Do"></h4>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </mat-card>
+
+    <mat-card>
+      <mat-list>
+        <h3>Personal</h3>
+        <mat-list-item *ngFor="let item of personalCard ; last as last">
+          <mat-icon mat-list-icon (click)="delete('personal', item.task)">remove_circle</mat-icon>
+          <h4 mat-line>{{item.task}}</h4>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon (click)="update('personal', personalInput.value); personalInput.value=''">add_circle</mat-icon>
+          <h4 mat-line><input #personalInput (keyup)="0" matInput placeholder="Add To Do"></h4>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </mat-card>
+  </div>
+
 </div>
 
 <!-- <button type="button" (click)="startListen()">CLICK ME TO LISTEN!</button>

@@ -28,7 +28,6 @@ export class TaskService {
         observe: 'response',
         withCredentials: true
       }).toPromise();
-      console.log('login response', response)
       return response;
     } catch {
       throw ('ERROR WITH TASKS SERVER')
@@ -43,7 +42,6 @@ export class TaskService {
       withCredentials: true
     };
     const response = await this.http.get(`${this.apigwUrl}/task/list`, httpOptions).toPromise();
-    console.log('getTask response', response)
     return response;
   }
 
@@ -62,9 +60,7 @@ export class TaskService {
     // const body = input.first;
     const body = { nlp: input.first, sequentialTask: ['', ''] };
     const httpOptions = { withCredentials: true };
-    console.log('body', body)
     const response = await this.http.post(`${this.apigwUrl}/task/form`, body, httpOptions).toPromise();
-    console.log('response', response)
     if (response['singleData']) {
       this.tempTasks = response['singleData'];
     } else { this.tempTasks = response['recurringData'] }
@@ -73,10 +69,8 @@ export class TaskService {
 
   async confirmTasks() {
     const body = this.tempTasks;
-    console.log('body', body)
     const httpOptions = { withCredentials: true };
     const response = await this.http.post(`${this.apigwUrl}/task/add`, body, httpOptions).toPromise();
-    console.log('response', response)
     return response;
   }
 }

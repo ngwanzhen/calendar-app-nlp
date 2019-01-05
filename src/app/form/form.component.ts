@@ -16,7 +16,7 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    console.log(f.value);  // { first: '', last: '' }
+    // console.log(f.value);  // { first: '', last: '' }
     this.submitForm.emit(f.value);
     f.reset();
   }

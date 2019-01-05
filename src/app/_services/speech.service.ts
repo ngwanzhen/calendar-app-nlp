@@ -15,22 +15,19 @@ export class SpeechService {
   constructor() { }
 
   start() {
-    console.log('hello here!')
     if (annyang) {
-      console.log('inside!')
       annyang.setLanguage('cmn-Hans-CN')
       // annyang.setLanguage('en-GB')
 
       const commands = {
         'hello': () => {
-          console.log('meeeee')
           alert('play play play!')
         }
       }
       annyang.addCommands(commands)
 
       annyang.addCallback('result', (userSaid, commandText, phrases) => {
-        console.log('userSaid', userSaid)
+        // console.log('userSaid', userSaid)
         this.wordsSpoken.next(userSaid);
 
         // this.changeWordsSpoken(userSaid)

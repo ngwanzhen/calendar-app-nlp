@@ -157,7 +157,7 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // this.speechService.start()
-    console.log('init')
+    // console.log('speech init')
 
     // pull todo from firebase
     this.workTasks.subscribe(docs => {
@@ -173,18 +173,15 @@ export class DemoComponent implements OnInit, OnDestroy {
 
     // login & set cookies
     const login = await this.taskService.login()
-    console.log('login', login)
     // this.cookieService.set('jwt', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0QHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkWEt1Sk01L3VFSThYSjRNdGh3RFo2T0g3cnp2TEozU3RqU1R1S1FLbnRJaS9RT1g3bmsvaVciLCJjcmVhdGVkQXQiOiIyMDE4LTEyLTEyVDA5OjIzOjM1LjQ5NVoiLCJ1cGRhdGVkQXQiOiIyMDE4LTEyLTEyVDA5OjIzOjM1LjQ5NVoiLCJpYXQiOjE1NDUxMzM5NDd9.bw_1QNzc3qxRyDamSkNEd-iLtOONN1ZcwKySPiMP_eM');
     // this.cookieService.set('jwt', login['token']);
 
     // pull tasks
     const responses = await this.taskService.getAllTasks()
-    console.log('responses', responses)
     this.formatTasks(responses);
 
     // pull today's tasks
     this.todayTasks = await this.taskService.getTodayTasks()
-    console.log('todayTasks', this.todayTasks)
     this.ref.detectChanges()
     // this.formatTasks(responses);
 
@@ -203,21 +200,17 @@ export class DemoComponent implements OnInit, OnDestroy {
         draggable: true
       })
     })
-    console.log(this.events)
     this.ref.detectChanges()
   }
 
   async submitForm(input) {
-    console.log('inputs', input)
     this.response = await this.taskService.postTempTasks(input);
-    console.log(this.response);
     this.ref.detectChanges();
     // if (response['clashTask']) { }
   }
 
   async confirmEvent() {
     this.response = await this.taskService.confirmTasks();
-    console.log(this.response, 'hello');
 
     // repeat pulling all tasks + today's tasks, should be refactored to subscription
     const responses = await this.taskService.getAllTasks()
@@ -243,11 +236,8 @@ export class DemoComponent implements OnInit, OnDestroy {
   }
 
   update(cat, values) {
-    console.log('values', values)
-    console.log('cat', cat)
     this.db.collection(cat).doc(values).set({ task: values })
       .then( () => {
-        console.log('Document successfully written!');
         this.ref.detectChanges();
       })
       .catch( error => {
@@ -256,11 +246,8 @@ export class DemoComponent implements OnInit, OnDestroy {
   }
 
   delete(cat, value) {
-    console.log('delete', value)
-    console.log('cat', cat)
     this.db.collection(cat).doc(value).delete()
       .then(() => {
-        console.log('Document successfully deleted!');
         this.ref.detectChanges();
       })
       .catch(error => {
